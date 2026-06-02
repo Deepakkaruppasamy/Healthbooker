@@ -1,0 +1,157 @@
+<div class="doctors-page">
+  <div class="container py-5">
+    <div class="text-center mb-5">
+      <h1 class="page-title">Our Doctors</h1>
+    </div>
+
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <div class="input-group">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Search by name or specialization..." 
+            [(ngModel)]="searchTerm"
+            (keyup.enter)="search()"
+          >
+          <button class="btn btn-primary" type="button" (click)="search()">
+            <i class="bi bi-search"></i> Search
+          </button>
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <select class="form-select" [(ngModel)]="selectedSpecialty" (change)="onSpecialtyChange()">
+          <option value="">All Specialties</option>
+          <option *ngFor="let specialty of specialties" [value]="specialty">{{ specialty }}</option>
+        </select>
+      </div>
+    </div>
+    
+    <!-- Loading Indicator -->
+    <div *ngIf="loading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading doctors...</p>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    
+    <!-- No Results -->
+    <div *ngIf="!loading && filteredDoctors.length === 0" class="alert alert-info">
+      No doctors found matching your criteria.
+    </div>
+    
+    <!-- Doctors List -->
+    <div class="row">
+      <div *ngFor="let doctor of filteredDoctors" class="col-md-6 col-lg-4 mb-4">
+        <div class="doctor-card">
+          <div class="doctor-card-header">
+            <div class="doctor-avatar">
+              <img src="assets/images/doctor-avatar.png" alt="{{ doctor.full_name }}">
+            </div>
+            <h2 class="doctor-name">{{ doctor.full_name }}</h2>
+            <div class="doctor-specialty">{{ doctor.specialization }}</div>
+          </div>
+          <div class="doctor-card-body">
+            <div class="doctor-info">
+              <div class="info-item">
+                <span class="info-label">Experience:</span>
+                <span class="info-value">{{ doctor.experience_years }}yrs</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Fees per consultation:</span>
+                <span class="info-value">$ {{ doctor.consultation_fee }}</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Phone:</span>
+                <span class="info-value">{{ doctor.phone_number }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="doctor-card-footer">
+            <button class="btn btn-primary btn-block" (click)="bookAppointment(doctor.doctor_id)">
+              BOOK APPOINTMENT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Appointment Modal -->
+<div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="appointmentModalLabel">Book Appointment</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedDoctor" class="selected-doctor mb-4">
+          <div class="d-flex align-items-center">
+            <div class="doctor-avatar-sm me-3">
+              <img src="assets/images/doctor-avatar.png" alt="{{ selectedDoctor.full_name }}">
+            </div>
+            <div>
+              <h6 class="mb-0">{{ selectedDoctor.full_name }}</h6>
+              <span class="doctor-specialty-sm">{{ selectedDoctor.specialization }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <form [formGroup]="appointmentForm">
+          <div class="alert alert-danger" *ngIf="appointmentError">
+            {{ appointmentError }}
+          </div>
+          <div class="alert alert-success" *ngIf="appointmentSuccess">
+            {{ appointmentSuccess }}
+          </div>
+          
+          <div class="mb-3">
+            <label for="appointment_date" class="form-label">Date</label>
+            <input 
+              type="date" 
+              id="appointment_date"
+              class="form-control" 
+              formControlName="appointment_date"
+              [min]="minDate"
+              [ngClass]="{ 'is-invalid': appointmentForm.get('appointment_date')?.invalid && appointmentForm.get('appointment_date')?.touched }"
+            >
+            <div class="invalid-feedback">Please select a valid date</div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="appointment_time" class="form-label">Time</label>
+            <input 
+              type="time" 
+              id="appointment_time" 
+              class="form-control" 
+              formControlName="appointment_time"
+              [ngClass]="{ 'is-invalid': appointmentForm.get('appointment_time')?.invalid && appointmentForm.get('appointment_time')?.touched }"
+            >
+            <div class="invalid-feedback">Please select a valid time</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="submitAppointment()"
+          [disabled]="appointmentForm.invalid || bookingInProgress"
+        >
+          <span class="spinner-border spinner-border-sm me-1" *ngIf="bookingInProgress"></span>
+          Book
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

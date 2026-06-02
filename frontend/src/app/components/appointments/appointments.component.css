@@ -1,0 +1,101 @@
+.appointments-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
+}
+
+.page-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.empty-state {
+  padding: 3rem 0;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+}
+
+.appointment-date {
+  background-color: #e0f2fe;
+  padding: 0.5rem;
+  border-radius: 8px;
+  color: #0369a1;
+}
+
+.date-month {
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.date-day {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.date-year {
+  font-size: 0.9rem;
+}
+
+.appointment-time {
+  font-weight: 500;
+  color: #64748b;
+}
+
+.doctor-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+  color: #1e293b;
+}
+
+.doctor-specialty {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-scheduled {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+
+.status-completed {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.status-cancelled {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.appointment-notes {
+  color: #64748b;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+} 

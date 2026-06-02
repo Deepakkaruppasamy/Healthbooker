@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" routerLink="/">HealthBooker</a>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/doctors" routerLinkActive="active">Doctors</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a class="nav-link" routerLink="/appointments" routerLinkActive="active">Appointments</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a class="nav-link" routerLink="/notifications" routerLinkActive="active">Notifications</a>
+        </li>
+        <li class="nav-item" *ngIf="!authService.isDoctor() && authService.isLoggedIn()">
+          <a class="nav-link" routerLink="/apply-doctor" routerLinkActive="active">Apply for doctor</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact Us</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
+        </li>
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
+          <button class="btn btn-primary ms-2" (click)="logout()">LOGOUT</button>
+        </li>
+        <li class="nav-item" *ngIf="!authService.isLoggedIn()">
+          <a class="btn btn-primary ms-2" routerLink="/login">LOGIN</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav> 
